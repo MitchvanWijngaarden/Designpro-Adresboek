@@ -15,7 +15,7 @@ class Address extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'address',
+        'naam', 'address',
     ];
 
 }
