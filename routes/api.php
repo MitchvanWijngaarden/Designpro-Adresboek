@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', 'api\PassportController@login');
+Route::post('register', 'api\PassportController@register');   
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('get-details', 'api\PassportController@getDetails');
+    Route::get('address', 'AddressController@get_all_addresses');
+    Route::get('address/{id}', 'AddressController@get_single_address_by_id');
 });
