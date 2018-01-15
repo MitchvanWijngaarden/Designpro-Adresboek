@@ -18,4 +18,5 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('get-details', 'api\PassportController@getDetails');
     Route::get('address', 'AddressController@get_all_addresses');
     Route::get('address/{id}', 'AddressController@get_single_address_by_id');
+    Route::delete('address', 'AddressController@delete');
 });

@@ -96,13 +96,14 @@ class AddressController extends Controller {
         return response()->json($updated_address, 200);
     }
 
-    public function delete(Article $article_to_delete) {
+    public function delete(Request $request) {
         $user_id = Auth::id();
-        if($article_to_delete->user_id == $user_id) {
-            return $address;
-        }
-        
-        $article_to_delete->delete();
+        $id = $request->id;
+        // if($article_to_delete->user_id == $user_id) {
+        //     return $address;
+        // }
+
+        Address::destroy($id);
 
         return response()->json(null, 204);
     }

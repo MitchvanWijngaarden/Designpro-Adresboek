@@ -20,6 +20,7 @@ class Address extends Eloquent
     public static $messages = [
         'name.required' => 'Naam is een verplicht veld.',
         'address.required' => 'Adres is een verplicht veld.',
+        'address.unique' => 'Dit adres bestaat al.',
     ];
 
     public static function validate($data) {
