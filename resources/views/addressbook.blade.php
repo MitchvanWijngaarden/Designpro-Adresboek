@@ -24,8 +24,8 @@
                                 <tr>
                                     <td>{{ $address->name }}</td>
                                     <td>{{ $address->address }}</td>
-                                    <td><a href=/address/edit/{{ $address->id }}>Edit</a></td>
-                                    <td><a href={{ $address->id }}>x</a></td>
+                                    <td><a href=/address/{{ $address->id }}/edit>Bewerk</a></td>
+                                    <td><a href={{ $address->id }}>Verwijder</a></td>
                                 </tr>
                             @empty
                                 <p>Geen addressen gevonden.</p>
@@ -38,3 +38,4 @@
     </div>
 </div>
 @endsection
+

@@ -16,8 +16,7 @@ class AddressController extends Controller {
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -49,13 +48,39 @@ class AddressController extends Controller {
         return Redirect::back()->withErrors($validation)->withInput();
     }
 
+    public function get_edit($id) {
+        return View::make('edit_address')
+            ->with('address', $this->get_single_address_by_id($id));
+    }
+
     public function get_all_addresses() {
         $user_id = Auth::id();
         return Address::where('user_id', $user_id)->get();
     }
 
     public function get_single_address_by_id($id) {
-        return Address::find($id);
+        $user_id = Auth::id();
+        $address = Address::find($id);
+
+        if($address->user_id == $user_id) {
+            return $address;
+        }
+
+        return response()->json(null, 401);
+    }
+
+    public function put_address(Request $request) {
+        $id = $request->input('id');
+        $address_to_update = $this->get_single_address_by_id($id);
+
+        $validation = Address::validate($request->all());
+
+        if (!$validation->fails()) {
+            $address_to_update->update($request->all());
+            return Redirect::to('address');
+        }
+
+        return Redirect::back()->withErrors($validation)->withInput();
     }
 
     public function store(Request $request) {
@@ -72,6 +97,11 @@ class AddressController extends Controller {
     }
 
     public function delete(Article $article_to_delete) {
+        $user_id = Auth::id();
+        if($article_to_delete->user_id == $user_id) {
+            return $address;
+        }
+        
         $article_to_delete->delete();
 
         return response()->json(null, 204);
