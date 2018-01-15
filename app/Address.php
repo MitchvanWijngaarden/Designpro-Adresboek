@@ -3,19 +3,31 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 use Eloquent;
 
 class Address extends Eloquent
 {
     public $table = 'address';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
+    public static $rules = [
+        'name'      => ['required'],
+        'address'   => ['required', 'unique:address,name,address,user_id'],
+        'user_id'   => ['required|nullable'],
+    ];
+
+    public static $messages = [
+        'name.required' => 'Naam is een verplicht veld.',
+        'address.required' => 'Adres is een verplicht veld.',
+    ];
+
+    public static function validate($data) {
+        return Validator::make($data, static::$rules, static::$messages);
+    }
+    
     protected $fillable = [
-        'naam', 'address',
+        'name', 'address', 'user_id',
     ];
 
 }

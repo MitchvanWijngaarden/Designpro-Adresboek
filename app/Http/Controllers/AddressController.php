@@ -4,13 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use View;
+use Illuminate\Support\Facades\Auth;
 use App\Address;
+use Illuminate\Support\Facades\Redirect;
 
 class AddressController extends Controller {
     public $restful = true;
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index() {
+        return View::make('addressbook')
+            ->with('addresses', $this->get_all_addresses());
+    }
+
+    public function get_new() {
+        return View::make('new_address');
+    }
+
+    public function post_new(Request $request) {
+        $user_id = Auth::id();
+
+        $requestTest = $request;
+
+        $validation = Address::validate($requestTest->all());
+
+        if (!$validation->fails()) {
+            Address::create(array(
+                'name'=>$requestTest->input('name'),
+                'address'=>$requestTest->input('address'),
+                'user_id'=>$user_id
+            ));
+            return Redirect::to('address');
+        }
+
+        return Redirect::back()->withErrors($validation)->withInput();
+    }
+
     public function get_all_addresses() {
-        return Address::all();
+        $user_id = Auth::id();
+        return Address::where('user_id', $user_id)->get();
     }
 
     public function get_single_address_by_id($id) {

@@ -15,14 +15,16 @@ class AddNewAddress extends Migration
     {
         DB::table('address')->insert(array(
             'name'=>'Mitch van Wijngaarden',
-            'street'=>'Meidoornstraat 10',
+            'address'=>'Meidoornstraat 10',
+            'user_id'=>1,
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
         ));
 
         DB::table('address')->insert(array(
             'name'=>'Iris Verhoef',
-            'street'=>'Bandoengstraat 33',
+            'address'=>'Bandoengstraat 33',
+            'user_id'=>1,
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
         ));

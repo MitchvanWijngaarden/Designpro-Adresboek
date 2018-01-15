@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,10 +14,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('login', 'api\PassportController@login');
-Route::post('register', 'api\PassportController@register');   
-
-Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['middleware' => 'auth'], function(){
     Route::post('get-details', 'api\PassportController@getDetails');
     Route::get('address', 'AddressController@get_all_addresses');
     Route::get('address/{id}', 'AddressController@get_single_address_by_id');
